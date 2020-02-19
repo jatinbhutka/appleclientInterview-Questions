@@ -470,7 +470,86 @@ removeDuplicates(l)
 l = LinkedList(list2)
 l.printList()
 removeDuplicates(l)
+```
 
+Question 1: Please write a Python script that:
+1. Reads the JSON located at http://mysafeinfo.com/api/data?list=englishmonarchs&format=json
+2. Outputs a JSON object consisting of lists of unique 'nm', grouped by 'cty' and 'hse'
+Example output:
+
+{
+         "cty1": {
+           "hse1": [
+             "name1", 
+             "name2"
+           ],
+           "hse2": [
+             "name1", 
+             "name2" 
+           ]      
+         },
+         "cty2": {
+           "hse3": [
+             "name1", 
+             "name2"
+           ],
+           "hse3": [
+             "name1", 
+             "name2" 
+           ] } }
+
+```python
+
+import json
+import urllib.request
+url = "https://mysafeinfo.com/api/data?list=englishmonarchs&format=json"
+data = urllib.request.urlopen(url).read().decode()
+data = json.loads(data)
+
+print("Json Data read from")
+print ("https://mysafeinfo.com/api/data?list=englishmonarchs&format=json")
+print ()
+print(data)
+#print(type(data))
+
+"""
+[
+    {'ID': 1, 'Name': 'Edward the Elder', 'Country': 'United Kingdom', 'House': 'House of Wessex', 'Reign': '899-925'}, 
+    {'ID': 2, 'Name': 'Athelstan', 'Country': 'United Kingdom', 'House': 'House of Wessex', 'Reign': '925-940'}, 
+    {'ID': 3, 'Name': 'Edmund', 'Country': 'United Kingdom', 'House': 'House of Wessex', 'Reign': '940-946'}, 
+    {'ID': 4, 'Name': 'Edred', 'Country': 'United Kingdom', 'House': 'House of Wessex', 'Reign': '946-955'}, 
+    {'ID': 5, 'Name': 'Edwy', 'Country': 'United Kingdom', 'House': 'House of Wessex', 'Reign': '955-959'}
+]
+"""
+
+op = {}
+country = []
+house = []
+for item in data:
+    #print (item,"\n")
+    for key in item:
+        if key == 'Country':
+            if item[key] not in country:
+                country.append(item[key])
+                
+        if key == 'House':
+            if item[key] not in house:
+                house.append(item[key])                
+#print(country)
+#print(house)    
+
+for con in country:
+    for hos in house:
+        nam = []
+        for item in data:
+            if con in item["Country"] and hos in item["House"]:
+                nam.append(item["Name"])
+        op = [{con:{hos: nam}}]
+
+print()
+print("Output Json:")        
+print(op)
 
 ```
+
 
