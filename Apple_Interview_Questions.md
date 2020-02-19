@@ -472,31 +472,32 @@ l.printList()
 removeDuplicates(l)
 ```
 
-Question 1: Please write a Python script that:
-1. Reads the JSON located at http://mysafeinfo.com/api/data?list=englishmonarchs&format=json
-2. Outputs a JSON object consisting of lists of unique 'nm', grouped by 'cty' and 'hse'
-Example output:
+## Question 1: Please write a Python script that:
+ Reads the JSON located at http://mysafeinfo.com/api/data?list=englishmonarchs&format=json
+ Outputs a JSON object consisting of lists of unique 'nm', grouped by 'cty' and 'hse'
+ 
 
-{
-         "cty1": {
-           "hse1": [
-             "name1", 
-             "name2"
-           ],
-           "hse2": [
-             "name1", 
-             "name2" 
-           ]      
-         },
-         "cty2": {
-           "hse3": [
-             "name1", 
-             "name2"
-           ],
-           "hse3": [
-             "name1", 
-             "name2" 
-           ] } }
+		Example output:
+		{
+			 "cty1": {
+			   "hse1": [
+			     "name1", 
+			     "name2"
+			   ],
+			   "hse2": [
+			     "name1", 
+			     "name2" 
+			   ]      
+			 },
+			 "cty2": {
+			   "hse3": [
+			     "name1", 
+			     "name2"
+			   ],
+			   "hse3": [
+			     "name1", 
+			     "name2" 
+			   ] } }
 
 ```python
 
@@ -553,3 +554,98 @@ print(op)
 ```
 
 
+#### Question 2: Please write a Python program that:
+	Reads the JSON located at https://data.cityofnewyork.us/api/views/25th-nujf/rows.json
+	Maps the 'name' from each field in "columns, available at JSON_ROOT['meta']['view']['columns'], to each list inside JSON_ROOT['data']. (e.g. the name of the first field listed in "columns" is the name of the first item in each list in "data")
+	Outputs a JSON file containing only data for the following fields: ["Child's First Name", "Gender", "Ethnicity", "Year of Birth", "Rank", "Count"]
+	Filters the aforementioned data to only the years 2012-2014 (inclusive), then groups it- first by "Child's First Name" and then "Ethnicity"- and provides the sum of "Count" for each combination.
+	The resulting data should be written both to JSON and to CSV.
+
+
+##### Question 3: Write Python program to implemenet quick sort for below list:
+ 	random_list_of_numbers = [22,5,1,18,99]
+ 
+ 
+ ```python
+ def merge_sort(A):
+    l = len(A)
+    if l<2:
+        return A
+    else:
+        mid = l//2
+        
+        left = A[:mid]
+        right = A[mid:]
+        
+        merge_sort(left)
+        merge_sort(right)
+        
+        merge(left, right, A)
+    return A
+    
+def merge(left, right, A ):
+    nl = len(left)
+    nr= len(right)
+    i = 0
+    j = 0
+    k = 0
+    
+    while(i<nl and j<nr):
+        if left[i]<=right[j]:
+            A[k]=left[i]
+            i+=1
+        else:
+            A[k]=right[j]
+            j+=1
+        k+=1
+    while i < nl:
+        A[k]=left[i]
+        i+=1
+        k+=1
+    while j<nr:
+        A[k]=right[j]
+        j+=1
+        k+=1
+    return A
+
+def main():
+    A = [22,5,1,18,99] 
+    print("Array to be sorted are:\n", A, "\n")
+    
+    A = merge_sort(A)
+    print ("Merge Sorted array:\n", A) 
+main()
+ ```
+ 
+ 
+ 
+ ```python
+def partition(arr,low,high): 
+    i = ( low-1 )         
+    pivot = arr[high]
+    for j in range(low , high): 
+  
+        if   arr[j] < pivot: 
+          
+            i = i+1 
+            arr[i],arr[j] = arr[j],arr[i] 
+  
+    arr[i+1],arr[high] = arr[high],arr[i+1] 
+    return ( i+1 ) 
+
+
+# Function to do Quick sort 
+def quickSort(arr,low,high): 
+    if low < high: 
+
+        pi = partition(arr,low,high) 
+
+        quickSort(arr, low, pi-1) 
+        quickSort(arr, pi+1, high) 
+  
+arr = [22,5,1,18,99] 
+print("Array to be sorted are:\n", arr, "\n")
+n = len(arr) 
+quickSort(arr,0,n-1) 
+print("Quick Sorted array:\n",arr, "\n") 
+ ```
