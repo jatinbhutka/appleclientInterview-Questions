@@ -267,22 +267,210 @@ Also understanding how Spark deals with partitions allow us to control the appli
 
 #### 7) There are 2 lists; one with birth year, other one with death year. Write Scala program to find out which year people lived the max.
 
+
+
+
 #### 8) How do you remove elements with a key present in the other RDD?
+
+	Using subtractByKey(rdd_key):
+
+	Two pair of RDDs: (rdd = {(1, 2), (3, 4), (3, 6)} other = {(3, 9)})
+	rdd.subtractByKey(other) ==============>   {(1, 2)}
 
 
 ## General/Java Questions
 
 #### 1) Difference between List and Set data structures?
 
+##### List:
+		
+List is the collection of items (Data types can be same or different) ordered in a linear sequence.
+
+Lists are implemented either as linked lists (singly, doubly, circular, …) or as dynamic array.
+
+It allows positional access. You can access any elements by its position.
+
+List allows duplicates
+
+
+##### Sets:
+
+Sets, is an unorder collection of items, with no repeated values. By unorder means there is no index like lists.
+
+You can use Sets, When all what you need is a bunch of items into it, where you don’t care about the sequence. There is no specific sequence as with a linked list, or a stack, or a queue. There is no key-value pairs as with a hash table.
+
+Unlike an array, or values in an associative array, or a linked list, sets do not allow duplicates. You cannot add the same object, the same value twice to the same set.
+
+Sets are designed for very fast lookup, to very quickly be able to see if we already have a value contained in a collection.
+You can also iterate through all the elements in a set, you just may not have any guaranteed order.
+
+
 #### 2) Why is String immutable (or final) in Java?
+The string is Immutable in Java because String objects are cached in String pool. Since cached String literals are shared between multiple clients there is always a risk, where one client's action would affect all another client. For example, if one client changes the value of String "Test" to "TEST", all other clients will also see that value as explained in the first example. Since caching of String objects was important from performance reason this risk was avoided by making String class Immutable. At the same time, String was made final so that no one can compromise invariant of String class e.g. Immutability, Caching, hashcode calculation etc by extending and overriding behaviors.
+
+The string is made final to not allow others to extend it and destroy its immutability.
+
+Security: Parameters are typically represented as String in network connections, database connection URLs, usernames/passwords, etc. If it was mutable, these parameters could be changed easily.
+
+Synchronization and Concurrency: making String immutable automatically makes them thread safe thereby solving the synchronization issues.
+
+Caching: when compiler optimizes our String objects, it seems that if two objects have the same value (a =" test", and b =" test") and thus we need only one string object (for both a and b, these two will point to the same object).
+
+Class loading: String is used as arguments for class loading. If mutable, it could result in the wrong class being loaded (because mutable objects change their state).
+
 
 #### 3) What does “final” keyword achieve for a class, method or variable?
 
+Final Keyword in Java is used to finalize the value of a variable, class or method for the entire program. 
+
+Final keyword is used in different context,
+
+Final Variable -------> To create constant variable
+
+We must initialize a final variable, otherwise compiler will throw compile-time error.A final variable can only be initialized once, either via an initializer or an assignment statement. There are three ways to initialize a final variable :
+
+You can initialize a final variable when it is declared.This approach is the most common. A final variable is called blank final variable,if it is not initialized while declaration. Below are the two ways to initialize a blank final variable.
+
+A blank final variable can be initialized inside instance-initializer block or inside constructor. If you have more than one constructor in your class then it must be initialized in all of them, otherwise compile time error will be thrown.
+
+A blank final static variable can be initialized inside static block.
+
+Final Methods  -------> To prevent method overriding
+
+When a method is declared with final keyword, it is called a final method. A final method cannot be overridden. The Object class does this—a number of its methods are final.We must declare methods with final keyword for which we required to follow the same implementation throughout all the derived classes.
+
+Final Classes  -------> To prevent Inheritance
+
+When a class is declared with final keyword, it is called a final class. A final class cannot be extended(inherited). There are two uses of a final class :
+
+One is definitely to prevent inheritance, as final classes cannot be extended. For example, all Wrapper Classes like Integer,Float etc. are final classes. We can not extend them.
+	final class A
+	{
+		 // methods and fields
+	}
+	// The following class is illegal.
+	class B extends A 
+	{ 
+		// COMPILE-ERROR! Can't subclass A
+	}
+The other use of final with classes is to create an immutable class like the predefined String class.You can not make a class immutable without making it final.
+
+
 #### 4) When would you have a private constructor in a class?
 
+Like any method we can provide access specifier to the constructor. If it’s made private, then it can only be accessed inside the class.
+
+There are various scenarios where we can use private constructors. The major ones are
+
+1. Singleton class design pattern:
+	In this, We can restricts the instantiation of class and ensures that only one instance of the class exists.
+
+2. To Prevent Subclassing:
+	If we create private constructor, No class can extend your class, because it can't call the super() constructor. This is some kind of alternative for final class.
+
+3. Builder Design Pattern:
+	Private constructor can also used in builder design pattern and thus creating Immutable classes as well.
+
+
 #### 5) What does a “synchronized” method or code block achieve?
+Java is multi-threaded language where multiple threads runs parallel to complete their execution. We need to synchronize the shared resources to ensure that at a time only one thread is able to access the shared resource.
+
+If an Object is shared by multiple threads then there is need of synchronization in order to avoid the Object’s state to be getting corrupted.
+
+Java programming language provide two synchronization idioms:
+
+1.Methods synchronization:
+	Synchronized methods enables a simple strategy for preventing the thread interference and memory consistency errors. If a Object is visible to more than one threads, all reads or writes to that Object’s fields are done through the synchronized method.
+
+2.Block synchronization:
+	If we only need to execute some subsequent lines of code not all lines (instructions) of code within a method, then we should synchronize only block of the code within which required instructions are exists.
+
 
 #### 6) Why does a “wait()” and “notify()” need to be within a “synchronized” block? How does these calls help in inter thread communication?
 
+To tackle the multithreading problem, methods like Wait and Notify in Java are used. The Object class uses these three final methods that allow threads to communicate about the locked status of a resource.
+
+Wait()
+	This method causes the thread to wait until another thread invokes notify() and notifyAll() methods for this object. This Wait() method tells the calling thread to let go of a lock and go to sleep until some other thread enters the same monitor and calls to notify(). This method releases the lock before waiting and reacquires the lock before returning from the wait() method.
+
+Wait() method is tightly integrated with the synchronization lock. This is done by using a feature not available directly from the synchronization mechanism.
+
+
+Notify()
+	This method is used to notify the threads that it needs to function. It wakes up one thread that called the wait() method on the same object.
+
+Note that calling notify() eventually does not give up a lock. It tells a waiting thread that it can wake up. However, the lock is not actually given up until the notifier’s synchronized block has completed. Now say, if you call notify() on a resource but the notifier still needs to perform actions for 10 seconds within its synchronized block, the thread that had been waiting will have to wait at least for another additional 10 seconds for the notifier to release the lock on the object, even though notify() had been called.
+
 #### 7) Write a function to remove duplicates from an unsorted linked list?
+
+
+```python
+## Python: 
+		
+class Node():
+#Single node:
+
+def __init__(self, data):
+	self.data = data
+	self.nextNode = None
+
+def __str__(self):
+	return str(self.data)
+
+class LinkedList():
+#Create singly linked list:
+def __init__(self, linkedList):
+	self.head = None
+	self.add(linkedList)
+
+def add(self, linkedList):
+	for data in reversed(linkedList):
+		node = Node(data)
+		node.nextNode = self.head
+		self.head = node
+
+def printList(self):
+		node = self.head
+		if node is not None:
+			print (node,)
+			node = node.nextNode
+
+		while node:
+			print (node)
+			node = node.nextNode
+		print ("\n")
+
+def removeDuplicates(linkedList):
+previousNode = linkedList.head
+currentNode = previousNode.nextNode
+
+keys = set([previousNode.data])
+
+while currentNode:
+	data = currentNode.data
+
+	if data in keys:
+		previousNode.nextNode = currentNode.nextNode
+		currentNode = currentNode.nextNode
+	else:
+		keys.add(data)
+		previousNode = currentNode
+		currentNode = currentNode.nextNode
+
+print ("After removing the duplicates:")
+linkedList.printList()
+
+list1 = [1, 2, 3, 4, 5, 3, 5, 4]
+list2 = ['a', 'b', 'c', 'd', 'c', 'e', 'f', 'b']
+
+l = LinkedList(list1)
+l.printList()
+removeDuplicates(l)
+
+l = LinkedList(list2)
+l.printList()
+removeDuplicates(l)
+
+
+```
 
