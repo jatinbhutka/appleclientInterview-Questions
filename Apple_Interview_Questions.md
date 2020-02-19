@@ -60,3 +60,34 @@ object retriveValOfToken
 } 
 
 ```
+
+
+#### 3) What is the difference between persist() and cache()
+
+#### 4) Explain the difference between Spark SQL and Hive
+
+#### 5) Explain Partitions and SparkContext?
+
+#### 6) Write a Scala function which takes a list and a target number and returns combination of numbers whose sum to the target number
+
+#### 7) There are 2 lists; one with birth year, other one with death year. Write Scala program to find out which year people lived the max.
+
+#### 8) How do you remove elements with a key present in the other RDD?
+
+
+## General/Java Questions
+
+#### 1) Difference between List and Set data structures?
+
+#### 2) Why is String immutable (or final) in Java?
+
+#### 3) What does “final” keyword achieve for a class, method or variable?
+
+#### 4) When would you have a private constructor in a class?
+
+#### 5) What does a “synchronized” method or code block achieve?
+
+#### 6) Why does a “wait()” and “notify()” need to be within a “synchronized” block? How does these calls help in inter thread communication?
+
+#### 7) Write a function to remove duplicates from an unsorted linked list?
+
