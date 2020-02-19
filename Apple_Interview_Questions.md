@@ -267,8 +267,45 @@ Also understanding how Spark deals with partitions allow us to control the appli
 
 #### 7) There are 2 lists; one with birth year, other one with death year. Write Scala program to find out which year people lived the max.
 
+```python
+def getMaxYears(birth, death):
 
+    min_birth = min(birth)
+    #print(min_birth)
+    
+    max_death = max(death)
+    #print(max_death)
+    
+    total_years = list(range(min_birth, max_death))
+    #print(total_years)
+    
+    # Year with number of people alive: count_per_year = {year:people_alive}
+    count_per_year = {}
+    for year in total_years:
+        count_per_year[year] = 0
+        for i in range(len(birth)):  
+            if year>= birth[i] and year < death[i]:
+                count_per_year[year] += 1 
+    print(count_per_year, "\n")
+    
+    itemMaxValue = max(count_per_year.items(), key=lambda x: x[1])
+    print('Maximum people alive in any year: ', itemMaxValue[1], "\n")
+     
+    listOfKeys = list()
+    # Iterate over all the items in dictionary to find keys with max value
+    for key, value in count_per_year.items():
+        if value == itemMaxValue[1]:
+            listOfKeys.append(key)
+     
+    print('This are the years people lived the max : \n', listOfKeys)
 
+def main():
+    birth = [1990, 1984, 1996, 2001]
+    death = [2056, 2018, 2027, 2056]
+    getMaxYears(birth, death)
+main()
+
+```
 
 #### 8) How do you remove elements with a key present in the other RDD?
 
